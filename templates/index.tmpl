@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Demo App | Vriend</title>
+    <title>Demo App | Vrie                  <span class="fetch-icon" x-show="!isLoadingStress">📊</span>d</title>
     <link rel="stylesheet" href="/public/styles.css">
   </head>
   <body>
@@ -71,46 +71,162 @@
 
           <!-- Info Tab Content -->
           <div class="tab-content" :class="{ active: activeTab === 'info' }">
-            <button
-              class="btn"
-              @click="fetchUserInfo()"
-              :disabled="isLoadingInfo"
-            >
-              <span x-show="!isLoadingInfo">Fetch User Info</span>
-              <span x-show="isLoadingInfo">Loading...</span>
-            </button>
-            <pre
-              x-show="userInfo"
-              class="api-response"
-              x-text="'User Info API response:\n' + JSON.stringify(userInfo, null, 2)"
-            ></pre>
-            <pre
-              x-show="infoError"
-              class="api-response"
-              x-text="'Info API error: ' + infoError"
-            ></pre>
+            <div class="api-fetch-section">
+              <!-- Section Header -->
+              <div class="api-section-header">
+                <div class="section-title">
+                  <span class="section-icon">ℹ️</span>
+                  <h3>User Information</h3>
+                </div>
+                <div class="section-actions">
+                  <!-- Status indicator -->
+                  <div class="api-status" x-show="isLoadingInfo || userInfo || infoError">
+                    <div class="status-dot" :class="{
+                      'status-loading': isLoadingInfo,
+                      'status-success': userInfo && !infoError,
+                      'status-error': infoError
+                    }"></div>
+                    <span class="status-text" x-show="isLoadingInfo">Loading...</span>
+                    <span class="status-text" x-show="userInfo && !infoError">Ready</span>
+                    <span class="status-text" x-show="infoError">Error</span>
+                  </div>
+                  
+                  <!-- Action buttons -->
+                  <div class="action-buttons">
+                    <!-- Initial fetch button -->
+                    <button
+                      x-show="!userInfo && !infoError && !isLoadingInfo"
+                      class="btn-action btn-primary"
+                      @click="fetchUserInfo()"
+                    >
+                      <span class="btn-icon">📥</span>
+                      <span>Fetch Data</span>
+                    </button>
+
+                    <!-- Refresh button -->
+                    <button
+                      x-show="(userInfo || infoError) && !isLoadingInfo"
+                      class="btn-action btn-secondary"
+                      @click="fetchUserInfo()"
+                    >
+                      <span class="btn-icon">🔄</span>
+                      <span>Refresh</span>
+                    </button>
+
+                    <!-- Loading button -->
+                    <button
+                      x-show="isLoadingInfo"
+                      class="btn-action btn-loading"
+                      disabled
+                    >
+                      <div class="loading-spinner"></div>
+                      <span>Loading...</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Loading skeleton -->
+              <div x-show="isLoadingInfo" class="loading-skeleton"></div>
+
+              <!-- Response container -->
+              <div class="api-response-container">
+                <div x-show="userInfo" class="api-response success">
+                  <div class="response-header">
+                    <span class="response-type">User Information</span>
+                    <span class="response-timestamp" x-text="new Date().toLocaleTimeString()"></span>
+                  </div>
+                  <div x-text="JSON.stringify(userInfo, null, 2)"></div>
+                </div>
+                <div x-show="infoError" class="api-response error">
+                  <div class="response-header">
+                    <span class="response-type">Request Failed</span>
+                    <span class="response-timestamp" x-text="new Date().toLocaleTimeString()"></span>
+                  </div>
+                  <div x-text="'Error: ' + infoError"></div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Stress Levels Tab Content -->
           <div class="tab-content" :class="{ active: activeTab === 'stress' }">
-            <button
-              class="btn"
-              @click="fetchStressLevels()"
-              :disabled="isLoadingStress"
-            >
-              <span x-show="!isLoadingStress">Fetch Stress Levels</span>
-              <span x-show="isLoadingStress">Loading...</span>
-            </button>
-            <pre
-              x-show="stressLevels"
-              class="api-response"
-              x-text="'Stress Levels API response:\n' + JSON.stringify(stressLevels, null, 2)"
-            ></pre>
-            <pre
-              x-show="stressError"
-              class="api-response"
-              x-text="'Stress API error: ' + stressError"
-            ></pre>
+            <div class="api-fetch-section">
+              <!-- Section Header -->
+              <div class="api-section-header">
+                <div class="section-title">
+                  <span class="section-icon">📊</span>
+                  <h3>Stress Level Data</h3>
+                </div>
+                <div class="section-actions">
+                  <!-- Status indicator -->
+                  <div class="api-status" x-show="isLoadingStress || stressLevels || stressError">
+                    <div class="status-dot" :class="{
+                      'status-loading': isLoadingStress,
+                      'status-success': stressLevels && !stressError,
+                      'status-error': stressError
+                    }"></div>
+                    <span class="status-text" x-show="isLoadingStress">Loading...</span>
+                    <span class="status-text" x-show="stressLevels && !stressError">Ready</span>
+                    <span class="status-text" x-show="stressError">Error</span>
+                  </div>
+                  
+                  <!-- Action buttons -->
+                  <div class="action-buttons">
+                    <!-- Initial fetch button -->
+                    <button
+                      x-show="!stressLevels && !stressError && !isLoadingStress"
+                      class="btn-action btn-primary"
+                      @click="fetchStressLevels()"
+                    >
+                      <span class="btn-icon">📊</span>
+                      <span>Fetch Data</span>
+                    </button>
+
+                    <!-- Refresh button -->
+                    <button
+                      x-show="(stressLevels || stressError) && !isLoadingStress"
+                      class="btn-action btn-secondary"
+                      @click="fetchStressLevels()"
+                    >
+                      <span class="btn-icon">🔄</span>
+                      <span>Refresh</span>
+                    </button>
+
+                    <!-- Loading button -->
+                    <button
+                      x-show="isLoadingStress"
+                      class="btn-action btn-loading"
+                      disabled
+                    >
+                      <div class="loading-spinner"></div>
+                      <span>Loading...</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Loading skeleton -->
+              <div x-show="isLoadingStress" class="loading-skeleton"></div>
+
+              <!-- Response container -->
+              <div class="api-response-container">
+                <div x-show="stressLevels" class="api-response success">
+                  <div class="response-header">
+                    <span class="response-type">Stress Level Data</span>
+                    <span class="response-timestamp" x-text="new Date().toLocaleTimeString()"></span>
+                  </div>
+                  <div x-text="JSON.stringify(stressLevels, null, 2)"></div>
+                </div>
+                <div x-show="stressError" class="api-response error">
+                  <div class="response-header">
+                    <span class="response-type">Request Failed</span>
+                    <span class="response-timestamp" x-text="new Date().toLocaleTimeString()"></span>
+                  </div>
+                  <div x-text="'Error: ' + stressError"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
