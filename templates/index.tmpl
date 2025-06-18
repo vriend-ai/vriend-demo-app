@@ -5,156 +5,155 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Demo App</title>
     <style>
-      .hidden {
-        display: none;
+      /* Same CSS as before - keeping it consistent */
+      .hidden { display: none; }
+      .container { text-align: center; margin-top: 50px; }
+      .api-response {
+        padding: 20px; color: #fff; background: #222;
+        text-align: left; border-radius: 4px; margin-top: 20px;
+      }
+      .btn {
+        padding: 8px 16px; margin-top: 20px; border: none;
+        border-radius: 4px; cursor: pointer; font-size: 1rem;
+        transition: background 0.2s;
+      }
+      .btn-logout { background: #dc3545; color: white; }
+      .btn-logout:hover { background: #c82333; }
+      .signin-btn {
+        display: inline-flex; align-items: center; gap: 8px;
+        background: linear-gradient(90deg, #300047 0%, #400047 100%);
+        color: #fff; font-weight: 600; font-size: 1rem; padding: 7px 12px;
+        border-radius: 4px; box-shadow: 0 2px 8px rgba(46, 143, 255, 0.15);
+        text-decoration: none; transition: background 0.2s, box-shadow 0.2s;
+        min-width: 240px; max-width: 100%;
+      }
+      .signin-btn:hover { background: linear-gradient(90deg, #100047 0%, #200047 100%); }
+      .signin-btn img {
+        width: 32px; height: 32px; background: none; border-radius: 50%;
+        padding: 0; display: block; object-fit: contain; flex-shrink: 0;
+      }
+      .signin-btn span { white-space: nowrap; }
+      .title { font-size: 2rem; color: #333; margin-bottom: 16px; }
+      .subtitle { font-size: 1.2rem; color: #666; margin-bottom: 24px; }
+      .divider { margin: 20px 0; border: 0; border-top: 1px solid #ccc; }
+      .spinner {
+        border: 4px solid #f3f3f3; border-top: 4px solid #3498db;
+        border-radius: 50%; width: 40px; height: 40px;
+        animation: spin 2s linear infinite; margin: 20px auto;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
       }
     </style>
   </head>
   <body>
-    <!-- BEGIN: Login Screen -->
-    <div
-      id="login-container"
-      class="login-container"
-      style="text-align: center; margin-top: 50px"
-    >
-      <h1 style="font-size: 2rem; color: #333">Welcome to the Demo App</h1>
-      <p style="font-size: 1.2rem; color: #666">Please sign in to continue.</p>
-      <p>
-        <a
-          href="{{ .LoginURL }}"
-          style="
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(90deg, #300047 0%, #400047 100%);
-            color: #fff;
-            font-weight: 600;
-            font-size: 1rem;
-            padding: 7px 12px;
-            border-radius: 4px;
-            box-shadow: 0 2px 8px rgba(46, 143, 255, 0.15);
-            text-decoration: none;
-            transition: background 0.2s, box-shadow 0.2s;
-            min-width: 240px;
-            max-width: 100%;
-            will-change: background, box-shadow;
-          "
-          onmouseover="this.style.background='linear-gradient(90deg, #100047 0%, #200047 100%)';"
-          onmouseout="this.style.background='linear-gradient(90deg, #300047 0%, #400047 100%)';"
-          rel="noopener"
-        >
-          <img
-            src="https://cdn.vriend.ai/images/vriend-icon-white.png"
-            alt="Vriend Inc. Icon"
-            style="
-              width: 32px;
-              height: 32px;
-              background: none;
-              border-radius: 50%;
-              padding: 0;
-              display: block;
-              object-fit: contain;
-              flex-shrink: 0;
-            "
-            onerror="this.style.display='none'"
-          />
-          <span style="white-space: nowrap">
-            Sign in with
-            <em style="font-style: normal; font-weight: 800">Vriend ID</em>
-          </span>
-        </a>
-      </p>
+    <!-- Alpine.js App -->
+    <div id="app" x-data="authApp()" x-init="init()">
+      
+      <!-- Loading State -->
+      <div x-show="isLoading" class="container">
+        <div class="spinner"></div>
+        <p>Checking authentication...</p>
+      </div>
+
+      <!-- Login Screen -->
+      <div x-show="!isAuthenticated && !isLoading" class="container">
+        <h1 class="title">Welcome to the Demo App</h1>
+        <p class="subtitle">Please sign in to continue.</p>
+        <p>
+          <a :href="loginURL" class="signin-btn" rel="noopener">
+            <img
+              src="https://cdn.vriend.ai/images/vriend-icon-white.png"
+              alt="Vriend Inc. Icon"
+              @error="$event.target.style.display='none'"
+            />
+            <span>
+              Sign in with
+              <em style="font-style: normal; font-weight: 800">Vriend ID</em>
+            </span>
+          </a>
+        </p>
+      </div>
+
+      <hr class="divider" />
+
+      <!-- Authenticated Screen -->
+      <div x-show="isAuthenticated && !isLoading" class="container">
+        <h1 class="title">Welcome, you are logged in!</h1>
+        <p class="subtitle">You now have access to protected resources.</p>
+        <button class="btn btn-logout" @click="logout()">
+          Logout
+        </button>
+        <pre x-show="userInfo" class="api-response" x-text="'API response:\n' + JSON.stringify(userInfo, null, 2)"></pre>
+        <pre x-show="apiError" class="api-response" x-text="'API error: ' + apiError"></pre>
+      </div>
     </div>
-    <!-- END: Login Screen -->
 
-    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc" />
-
-    <!-- BEGIN: Authenticated Screen -->
-    <div
-      id="auth-container"
-      class="auth-container hidden"
-      style="text-align: center; margin-top: 50px"
-    >
-      <h1 style="font-size: 2rem; color: #333">Welcome, you are logged in!</h1>
-      <p style="font-size: 1.2rem; color: #666">
-        You now have access to protected resources.
-      </p>
-      <button onclick="logout()" style="margin-top: 20px; padding: 8px 16px">
-        Logout
-      </button>
-      <pre
-        id="api-response"
-        style="padding: 20px; color: #fff; background: #222; text-align: left"
-      ></pre>
-    </div>
-    <!-- END: Authenticated Screen -->
-
+    <!-- JavaScript Dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script type="text/javascript">
-      // Axios instance
-      const api = axios.create({
-        baseURL: "{{ .VriendAPIURL }}",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      });
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-      function showAuthenticated(info) {
-        document.getElementById("login-container").classList.add("hidden");
-        document.getElementById("auth-container").classList.remove("hidden");
-        if (info) {
-          document.getElementById("api-response").textContent =
-            "API response:\n" + JSON.stringify(info, null, 2);
-        } else {
-          api
-            .get("/info")
-            .then(function (response) {
-              document.getElementById("api-response").textContent =
-                "API response:\n" + JSON.stringify(response.data, null, 2);
-            })
-            .catch(function (error) {
-              document.getElementById("api-response").textContent =
-                "API error: " + error;
-            });
+    <script>
+      // Alpine.js app data and methods
+      function authApp() {
+        return {
+          // State
+          isAuthenticated: false,
+          isLoading: true,
+          userInfo: null,
+          apiError: null,
+          loginURL: "{{ .LoginURL }}",
+
+          // API clients
+          vriendAPI: axios.create({
+            baseURL: "{{ .VriendAPIURL }}",
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true,
+          }),
+
+          localAPI: axios.create({
+            baseURL: window.location.origin,
+            withCredentials: true,
+          }),
+
+          // Methods
+          async init() {
+            await this.checkAuthStatus();
+          },
+
+          async checkAuthStatus() {
+            try {
+              this.isLoading = true;
+              this.apiError = null;
+              
+              const response = await this.vriendAPI.get("/info");
+              
+              this.userInfo = response.data;
+              this.isAuthenticated = true;
+            } catch (error) {
+              this.isAuthenticated = false;
+              this.userInfo = null;
+              this.apiError = error.message || 'Authentication failed';
+            } finally {
+              this.isLoading = false;
+            }
+          },
+
+          async logout() {
+            try {
+              await this.localAPI.get("/logout");
+            } catch (error) {
+              console.error('Logout error:', error);
+            } finally {
+              // Always reset auth state
+              this.isAuthenticated = false;
+              this.userInfo = null;
+              this.apiError = null;
+            }
+          }
         }
       }
-
-      function showLogin() {
-        document.getElementById("login-container").classList.remove("hidden");
-        document.getElementById("auth-container").classList.add("hidden");
-        document.getElementById("api-response").textContent = "";
-      }
-
-      function logout() {
-        // API call to internal API (NOT the Vriend API)
-        axios
-          .get("/logout")
-          .then(function () {
-            showLogin();
-          })
-          .catch(function () {
-            showLogin();
-          });
-      }
-
-      // Check login by making /info call
-      function checkLogin() {
-        // API call to the Vriend API
-        api
-          .get("/info")
-          .then(function (response) {
-            showAuthenticated(response.data);
-          })
-          .catch(function () {
-            showLogin();
-          });
-      }
-
-      // On page load, check login state
-      window.onload = function () {
-        checkLogin();
-      };
     </script>
   </body>
 </html>
