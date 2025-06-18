@@ -65,6 +65,9 @@ func init() {
 }
 
 func main() {
+	// Serve static files from the public directory
+	http.Handle("GET /public/", http.StripPrefix("/public/", http.FileServer(http.Dir("public"))))
+
 	http.HandleFunc("GET "+redirectEndpointPath, handleOAuthCallback)
 	http.HandleFunc("GET /logout", handleLogout)
 	http.HandleFunc("GET /", handleIndex)
