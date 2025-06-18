@@ -148,7 +148,7 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		"client_id":     {clientID},
 		"response_type": {"code"},
 		"redirect_uri":  {redirectURL},
-		"scope":         {"openid profile email"}, // adjust scope as needed
+		"scope":         {"openid profile email vriend_stresslevel"}, // adjust scope as needed
 	}.Encode()
 
 	// Parse and execute the template
