@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Demo App</title>
+    <style>
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- BEGIN: Login Screen -->
+    <div
+      id="login-container"
+      class="login-container"
+      style="text-align: center; margin-top: 50px"
+    >
+      <h1 style="font-size: 2rem; color: #333">Welcome to the Demo App</h1>
+      <p style="font-size: 1.2rem; color: #666">Please sign in to continue.</p>
+      <p>
+        <a
+          href="{{ .LoginURL }}"
+          style="
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(90deg, #300047 0%, #400047 100%);
+            color: #fff;
+            font-weight: 600;
+            font-size: 1rem;
+            padding: 7px 12px;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(46, 143, 255, 0.15);
+            text-decoration: none;
+            transition: background 0.2s, box-shadow 0.2s;
+            min-width: 240px;
+            max-width: 100%;
+            will-change: background, box-shadow;
+          "
+          onmouseover="this.style.background='linear-gradient(90deg, #100047 0%, #200047 100%)';"
+          onmouseout="this.style.background='linear-gradient(90deg, #300047 0%, #400047 100%)';"
+          rel="noopener"
+        >
+          <img
+            src="https://cdn.vriend.ai/images/vriend-icon-white.png"
+            alt="Vriend Inc. Icon"
+            style="
+              width: 32px;
+              height: 32px;
+              background: none;
+              border-radius: 50%;
+              padding: 0;
+              display: block;
+              object-fit: contain;
+              flex-shrink: 0;
+            "
+            onerror="this.style.display='none'"
+          />
+          <span style="white-space: nowrap">
+            Sign in with
+            <em style="font-style: normal; font-weight: 800">Vriend ID</em>
+          </span>
+        </a>
+      </p>
+    </div>
+    <!-- END: Login Screen -->
+
+    <hr style="margin: 20px 0; border: 0; border-top: 1px solid #ccc" />
+
+    <!-- BEGIN: Authenticated Screen -->
+    <div
+      id="auth-container"
+      class="auth-container hidden"
+      style="text-align: center; margin-top: 50px"
+    >
+      <h1 style="font-size: 2rem; color: #333">Welcome, you are logged in!</h1>
+      <p style="font-size: 1.2rem; color: #666">
+        You now have access to protected resources.
+      </p>
+      <button onclick="logout()" style="margin-top: 20px; padding: 8px 16px">
+        Logout
+      </button>
+      <pre
+        id="api-response"
+        style="padding: 20px; color: #fff; background: #222; text-align: left"
+      ></pre>
+    </div>
+    <!-- END: Authenticated Screen -->
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="text/javascript">
+      // Axios instance
+      const api = axios.create({
+        baseURL: "{{ .VriendAPIURL }}",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      });
+
+      function showAuthenticated(info) {
+        document.getElementById("login-container").classList.add("hidden");
+        document.getElementById("auth-container").classList.remove("hidden");
+        if (info) {
+          document.getElementById("api-response").textContent =
+            "API response:\n" + JSON.stringify(info, null, 2);
+        } else {
+          api
+            .get("/info")
+            .then(function (response) {
+              document.getElementById("api-response").textContent =
+                "API response:\n" + JSON.stringify(response.data, null, 2);
+            })
+            .catch(function (error) {
+              document.getElementById("api-response").textContent =
+                "API error: " + error;
+            });
+        }
+      }
+
+      function showLogin() {
+        document.getElementById("login-container").classList.remove("hidden");
+        document.getElementById("auth-container").classList.add("hidden");
+        document.getElementById("api-response").textContent = "";
+      }
+
+      function logout() {
+        // API call to internal API (NOT the Vriend API)
+        axios
+          .get("/logout")
+          .then(function () {
+            showLogin();
+          })
+          .catch(function () {
+            showLogin();
+          });
+      }
+
+      // Check login by making /info call
+      function checkLogin() {
+        // API call to the Vriend API
+        api
+          .get("/info")
+          .then(function (response) {
+            showAuthenticated(response.data);
+          })
+          .catch(function () {
+            showLogin();
+          });
+      }
+
+      // On page load, check login state
+      window.onload = function () {
+        checkLogin();
+      };
+    </script>
+  </body>
+</html>
