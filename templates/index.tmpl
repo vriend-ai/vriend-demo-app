@@ -5,44 +5,204 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Demo App | Vriend</title>
     <style>
-      .hidden { display: none; }
-      .container { text-align: center; margin-top: 50px; }
-      .api-response {
-        padding: 20px; color: #fff; background: #222;
-        text-align: left; border-radius: 4px; margin-top: 20px;
+      /* Reset and base styles */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
       }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        line-height: 1.6;
+        color: #2d3748;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .hidden { 
+        display: none; 
+      }
+
+      /* Container and layout */
+      .container { 
+        max-width: 750px;
+        margin: 0 auto;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 40px 30px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        margin-top: 10vh;
+      }
+
+      /* Typography */
+      .title { 
+        font-size: 2.5rem; 
+        font-weight: 700;
+        color: #1a202c; 
+        margin-bottom: 12px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .subtitle { 
+        font-size: 1.1rem; 
+        color: #4a5568; 
+        margin-bottom: 32px;
+        font-weight: 400;
+      }
+
+      /* Buttons */
       .btn {
-        padding: 8px 16px; margin-top: 20px; border: none;
-        border-radius: 4px; cursor: pointer; font-size: 1rem;
-        transition: background 0.2s;
+        padding: 12px 24px; 
+        margin-top: 20px; 
+        border: none;
+        border-radius: 12px; 
+        cursor: pointer; 
+        font-size: 1rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
       }
-      .btn-logout { background: #dc3545; color: white; }
-      .btn-logout:hover { background: #c82333; }
+
+      .btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.5s;
+      }
+
+      .btn:hover::before {
+        left: 100%;
+      }
+
+      .btn-logout { 
+        background: linear-gradient(135deg, #fc8181 0%, #f56565 100%);
+        color: white;
+        border: 2px solid transparent;
+      }
+
+      .btn-logout:hover { 
+        transform: translateY(-2px);
+        box-shadow: 0 10px 25px rgba(245, 101, 101, 0.3);
+      }
+
+      /* Sign-in button */
       .signin-btn {
-        display: inline-flex; align-items: center; gap: 8px;
-        background: linear-gradient(90deg, #300047 0%, #400047 100%);
-        color: #fff; font-weight: 600; font-size: 1rem; padding: 7px 12px;
-        border-radius: 4px; box-shadow: 0 2px 8px rgba(46, 143, 255, 0.15);
-        text-decoration: none; transition: background 0.2s, box-shadow 0.2s;
-        min-width: 240px; max-width: 100%;
+        display: inline-flex; 
+        align-items: center; 
+        gap: 12px;
+        background: linear-gradient(135deg, #4c1d95 0%, #5b21b6 100%);
+        color: #fff; 
+        font-weight: 600; 
+        font-size: 1.1rem; 
+        padding: 16px 24px;
+        border-radius: 16px; 
+        box-shadow: 0 10px 25px rgba(76, 29, 149, 0.3);
+        text-decoration: none; 
+        transition: all 0.3s ease;
+        min-width: 260px; 
+        max-width: 100%;
+        position: relative;
+        overflow: hidden;
       }
-      .signin-btn:hover { background: linear-gradient(90deg, #100047 0%, #200047 100%); }
+
+      .signin-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        transition: left 0.5s;
+      }
+
+      .signin-btn:hover::before {
+        left: 100%;
+      }
+
+      .signin-btn:hover { 
+        transform: translateY(-3px);
+        box-shadow: 0 15px 35px rgba(76, 29, 149, 0.4);
+      }
+
       .signin-btn img {
-        width: 32px; height: 32px; background: none; border-radius: 50%;
-        padding: 0; display: block; object-fit: contain; flex-shrink: 0;
+        width: 36px; 
+        height: 36px; 
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        padding: 2px; 
+        display: block; 
+        object-fit: contain; 
+        flex-shrink: 0;
       }
-      .signin-btn span { white-space: nowrap; }
-      .title { font-size: 2rem; color: #333; margin-bottom: 16px; }
-      .subtitle { font-size: 1.2rem; color: #666; margin-bottom: 24px; }
-      .divider { margin: 20px 0; border: 0; border-top: 1px solid #ccc; }
+
+      .signin-btn span { 
+        white-space: nowrap; 
+      }
+
+      /* API Response */
+      .api-response {
+        padding: 24px; 
+        color: #e2e8f0; 
+        background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        text-align: left; 
+        border-radius: 16px; 
+        margin-top: 24px;
+        font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        /* Force text wrapping and prevent overflow */
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-all;
+        overflow-x: auto;
+        max-width: 100%;
+      }
+
+      /* Divider */
+      .divider { 
+        margin: 32px 0; 
+        border: 0; 
+        height: 1px;
+        background: linear-gradient(90deg, transparent, #cbd5e0, transparent);
+      }
+
+      /* Loading spinner */
       .spinner {
-        border: 4px solid #f3f3f3; border-top: 4px solid #3498db;
-        border-radius: 50%; width: 40px; height: 40px;
-        animation: spin 2s linear infinite; margin: 20px auto;
+        border: 3px solid rgba(102, 126, 234, 0.1);
+        border-top: 3px solid #667eea;
+        border-radius: 50%; 
+        width: 50px; 
+        height: 50px;
+        animation: spin 1s linear infinite; 
+        margin: 20px auto;
       }
+
       @keyframes spin {
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
+      }
+
+      /* Loading text */
+      .container p {
+        color: #4a5568;
+        font-size: 1rem;
+        margin-top: 16px;
       }
 
       /* Alpine.js cloak - prevents flash of unstyled content */
@@ -53,12 +213,89 @@
       /* Hide Alpine.js controlled content until it's ready */
       .alpine-content {
         opacity: 0;
-        transition: opacity 0.2s ease-in-out;
+        transition: opacity 0.4s ease-in-out;
       }
 
       /* Show content when Alpine.js is ready */
       .alpine-ready .alpine-content {
         opacity: 1;
+      }
+
+      /* Responsive design */
+      @media (max-width: 600px) {
+        body {
+          padding: 10px;
+        }
+        
+        .container {
+          padding: 30px 20px;
+          margin-top: 5vh;
+          border-radius: 16px;
+        }
+        
+        .title {
+          font-size: 2rem;
+        }
+        
+        .signin-btn {
+          min-width: auto;
+          width: 100%;
+          padding: 14px 20px;
+          font-size: 1rem;
+        }
+        
+        .signin-btn img {
+          width: 32px;
+          height: 32px;
+        }
+      }
+
+      /* Focus states for accessibility */
+      .btn:focus,
+      .signin-btn:focus {
+        outline: 3px solid rgba(102, 126, 234, 0.5);
+        outline-offset: 2px;
+      }
+
+      /* Smooth animations */
+      * {
+        transition: color 0.2s ease, background-color 0.2s ease;
+      }
+
+      /* Copyright footer */
+      .copyright {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.8);
+        background: rgba(0, 0, 0, 0.2);
+        backdrop-filter: blur(10px);
+        padding: 8px 16px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .copyright a {
+        color: rgba(255, 255, 255, 0.9);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.2s ease;
+      }
+
+      .copyright a:hover {
+        color: #ffffff;
+        text-decoration: underline;
+      }
+
+      @media (max-width: 600px) {
+        .copyright {
+          bottom: 10px;
+          font-size: 0.8rem;
+          padding: 6px 12px;
+        }
       }
     </style>
   </head>
@@ -90,9 +327,7 @@
           </a>
         </p>
       </div>
-
-      <hr class="divider" />
-
+      
       <!-- Authenticated Screen -->
       <div x-show="isAuthenticated && !isLoading" class="container">
         <h1 class="title">Welcome, you are logged in!</h1>
@@ -169,6 +404,16 @@
           }
         }
       }
+    </script>
+
+    <!-- Copyright Footer -->
+    <div class="copyright">
+      &copy; <span id="copyright-year"></span> <a href="https://vriend.ai" target="_blank" rel="noopener noreferrer">Vriend Inc.</a>
+    </div>
+
+    <script>
+      // Set current year dynamically
+      document.getElementById('copyright-year').textContent = new Date().getFullYear();
     </script>
   </body>
 </html>
