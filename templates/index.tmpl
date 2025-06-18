@@ -13,7 +13,8 @@
       }
 
       body {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, sans-serif;
         line-height: 1.6;
         color: #2d3748;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -21,12 +22,12 @@
         padding: 20px;
       }
 
-      .hidden { 
-        display: none; 
+      .hidden {
+        display: none;
       }
 
       /* Container and layout */
-      .container { 
+      .container {
         max-width: 750px;
         margin: 0 auto;
         background: rgba(255, 255, 255, 0.95);
@@ -39,10 +40,10 @@
       }
 
       /* Typography */
-      .title { 
-        font-size: 2.5rem; 
+      .title {
+        font-size: 2.5rem;
         font-weight: 700;
-        color: #1a202c; 
+        color: #1a202c;
         margin-bottom: 12px;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         -webkit-background-clip: text;
@@ -50,20 +51,20 @@
         background-clip: text;
       }
 
-      .subtitle { 
-        font-size: 1.1rem; 
-        color: #4a5568; 
+      .subtitle {
+        font-size: 1.1rem;
+        color: #4a5568;
         margin-bottom: 32px;
         font-weight: 400;
       }
 
       /* Buttons */
       .btn {
-        padding: 12px 24px; 
-        margin-top: 20px; 
+        padding: 12px 24px;
+        margin-top: 20px;
         border: none;
-        border-radius: 12px; 
-        cursor: pointer; 
+        border-radius: 12px;
+        cursor: pointer;
         font-size: 1rem;
         font-weight: 600;
         transition: all 0.3s ease;
@@ -72,13 +73,18 @@
       }
 
       .btn::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
         transition: left 0.5s;
       }
 
@@ -86,45 +92,50 @@
         left: 100%;
       }
 
-      .btn-logout { 
+      .btn-logout {
         background: linear-gradient(135deg, #fc8181 0%, #f56565 100%);
         color: white;
         border: 2px solid transparent;
       }
 
-      .btn-logout:hover { 
+      .btn-logout:hover {
         transform: translateY(-2px);
         box-shadow: 0 10px 25px rgba(245, 101, 101, 0.3);
       }
 
       /* Sign-in button */
       .signin-btn {
-        display: inline-flex; 
-        align-items: center; 
+        display: inline-flex;
+        align-items: center;
         gap: 12px;
         background: linear-gradient(135deg, #4c1d95 0%, #5b21b6 100%);
-        color: #fff; 
-        font-weight: 600; 
-        font-size: 1.1rem; 
+        color: #fff;
+        font-weight: 600;
+        font-size: 1.1rem;
         padding: 16px 24px;
-        border-radius: 16px; 
+        border-radius: 16px;
         box-shadow: 0 10px 25px rgba(76, 29, 149, 0.3);
-        text-decoration: none; 
+        text-decoration: none;
         transition: all 0.3s ease;
-        min-width: 260px; 
+        min-width: 260px;
         max-width: 100%;
         position: relative;
         overflow: hidden;
       }
 
       .signin-btn::before {
-        content: '';
+        content: "";
         position: absolute;
         top: 0;
         left: -100%;
         width: 100%;
         height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
         transition: left 0.5s;
       }
 
@@ -132,35 +143,36 @@
         left: 100%;
       }
 
-      .signin-btn:hover { 
+      .signin-btn:hover {
         transform: translateY(-3px);
         box-shadow: 0 15px 35px rgba(76, 29, 149, 0.4);
       }
 
       .signin-btn img {
-        width: 36px; 
-        height: 36px; 
+        width: 36px;
+        height: 36px;
         background: rgba(255, 255, 255, 0.1);
         border-radius: 50%;
-        padding: 2px; 
-        display: block; 
-        object-fit: contain; 
+        padding: 2px;
+        display: block;
+        object-fit: contain;
         flex-shrink: 0;
       }
 
-      .signin-btn span { 
-        white-space: nowrap; 
+      .signin-btn span {
+        white-space: nowrap;
       }
 
       /* API Response */
       .api-response {
-        padding: 24px; 
-        color: #e2e8f0; 
+        padding: 24px;
+        color: #e2e8f0;
         background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
-        text-align: left; 
-        border-radius: 16px; 
+        text-align: left;
+        border-radius: 16px;
         margin-top: 24px;
-        font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+        font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas,
+          "Courier New", monospace;
         font-size: 0.9rem;
         line-height: 1.5;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
@@ -175,9 +187,9 @@
       }
 
       /* Divider */
-      .divider { 
-        margin: 32px 0; 
-        border: 0; 
+      .divider {
+        margin: 32px 0;
+        border: 0;
         height: 1px;
         background: linear-gradient(90deg, transparent, #cbd5e0, transparent);
       }
@@ -186,16 +198,20 @@
       .spinner {
         border: 3px solid rgba(102, 126, 234, 0.1);
         border-top: 3px solid #667eea;
-        border-radius: 50%; 
-        width: 50px; 
+        border-radius: 50%;
+        width: 50px;
         height: 50px;
-        animation: spin 1s linear infinite; 
+        animation: spin 1s linear infinite;
         margin: 20px auto;
       }
 
       @keyframes spin {
-        0% { transform: rotate(0deg); }
-        100% { transform: rotate(360deg); }
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
       }
 
       /* Loading text */
@@ -226,24 +242,24 @@
         body {
           padding: 10px;
         }
-        
+
         .container {
           padding: 30px 20px;
           margin-top: 5vh;
           border-radius: 16px;
         }
-        
+
         .title {
           font-size: 2rem;
         }
-        
+
         .signin-btn {
           min-width: auto;
           width: 100%;
           padding: 14px 20px;
           font-size: 1rem;
         }
-        
+
         .signin-btn img {
           width: 32px;
           height: 32px;
@@ -297,12 +313,73 @@
           padding: 6px 12px;
         }
       }
+
+      /* Tab system */
+      .tabs-container {
+        margin-top: 24px;
+      }
+
+      .tab-buttons {
+        display: flex;
+        gap: 8px;
+        margin-bottom: 16px;
+        justify-content: center;
+      }
+
+      .tab-button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        background: rgba(255, 255, 255, 0.1);
+        color: #4a5568;
+        border: 2px solid transparent;
+      }
+
+      .tab-button.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      }
+
+      .tab-button:hover:not(.active) {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-1px);
+      }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      @media (max-width: 600px) {
+        .tab-buttons {
+          flex-direction: column;
+          align-items: center;
+        }
+
+        .tab-button {
+          width: 100%;
+          max-width: 200px;
+        }
+      }
     </style>
   </head>
   <body>
     <!-- Alpine.js App with proper cloak handling -->
-    <div id="app" x-data="authApp()" x-init="init(); $nextTick(() => document.body.classList.add('alpine-ready'))" class="alpine-content" x-cloak>
-      
+    <div
+      id="app"
+      x-data="authApp()"
+      x-init="init(); $nextTick(() => document.body.classList.add('alpine-ready'))"
+      class="alpine-content"
+      x-cloak
+    >
       <!-- Loading State -->
       <div x-show="isLoading" class="container">
         <div class="spinner"></div>
@@ -327,16 +404,76 @@
           </a>
         </p>
       </div>
-      
+
       <!-- Authenticated Screen -->
       <div x-show="isAuthenticated && !isLoading" class="container">
         <h1 class="title">Welcome, you are logged in!</h1>
-        <p class="subtitle">You now have access to protected resources.</p>
-        <button class="btn btn-logout" @click="logout()">
-          Logout
-        </button>
-        <pre x-show="userInfo" class="api-response" x-text="'API response:\n' + JSON.stringify(userInfo, null, 2)"></pre>
-        <pre x-show="apiError" class="api-response" x-text="'API error: ' + apiError"></pre>
+        <!-- <p class="subtitle">You now have access to protected resources.</p> -->
+        <button class="btn btn-logout" @click="logout()">Logout</button>
+
+        <!-- Tabs -->
+        <div class="tabs-container">
+          <div class="tab-buttons">
+            <button
+              class="tab-button"
+              :class="{ active: activeTab === 'info' }"
+              @click="setActiveTab('info')"
+            >
+              User Info
+            </button>
+            <button
+              class="tab-button"
+              :class="{ active: activeTab === 'stress' }"
+              @click="setActiveTab('stress')"
+            >
+              Stress Levels
+            </button>
+          </div>
+
+          <!-- Info Tab Content -->
+          <div class="tab-content" :class="{ active: activeTab === 'info' }">
+            <button
+              class="btn"
+              @click="fetchUserInfo()"
+              :disabled="isLoadingInfo"
+            >
+              <span x-show="!isLoadingInfo">Fetch User Info</span>
+              <span x-show="isLoadingInfo">Loading...</span>
+            </button>
+            <pre
+              x-show="userInfo"
+              class="api-response"
+              x-text="'User Info API response:\n' + JSON.stringify(userInfo, null, 2)"
+            ></pre>
+            <pre
+              x-show="infoError"
+              class="api-response"
+              x-text="'Info API error: ' + infoError"
+            ></pre>
+          </div>
+
+          <!-- Stress Levels Tab Content -->
+          <div class="tab-content" :class="{ active: activeTab === 'stress' }">
+            <button
+              class="btn"
+              @click="fetchStressLevels()"
+              :disabled="isLoadingStress"
+            >
+              <span x-show="!isLoadingStress">Fetch Stress Levels</span>
+              <span x-show="isLoadingStress">Loading...</span>
+            </button>
+            <pre
+              x-show="stressLevels"
+              class="api-response"
+              x-text="'Stress Levels API response:\n' + JSON.stringify(stressLevels, null, 2)"
+            ></pre>
+            <pre
+              x-show="stressError"
+              class="api-response"
+              x-text="'Stress API error: ' + stressError"
+            ></pre>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -352,7 +489,13 @@
           isAuthenticated: false,
           isLoading: true,
           userInfo: null,
+          stressLevels: null,
           apiError: null,
+          infoError: null,
+          stressError: null,
+          isLoadingInfo: false,
+          isLoadingStress: false,
+          activeTab: "info",
           loginURL: "{{ .LoginURL }}",
 
           // API clients
@@ -376,17 +519,54 @@
             try {
               this.isLoading = true;
               this.apiError = null;
-              
+
               const response = await this.vriendAPI.get("/info");
-              
+
               this.userInfo = response.data;
               this.isAuthenticated = true;
             } catch (error) {
               this.isAuthenticated = false;
               this.userInfo = null;
-              this.apiError = error.message || 'Authentication failed';
+              this.apiError = error.message || "Authentication failed";
             } finally {
               this.isLoading = false;
+            }
+          },
+
+          setActiveTab(tab) {
+            this.activeTab = tab;
+          },
+
+          async fetchUserInfo() {
+            try {
+              this.isLoadingInfo = true;
+              this.infoError = null;
+
+              const response = await this.vriendAPI.get("/info");
+              this.userInfo = response.data;
+            } catch (error) {
+              this.userInfo = null;
+              this.infoError = error.message || "Failed to fetch user info";
+            } finally {
+              this.isLoadingInfo = false;
+            }
+          },
+
+          async fetchStressLevels() {
+            try {
+              this.isLoadingStress = true;
+              this.stressError = null;
+
+              const response = await this.vriendAPI.get(
+                "/wellness/stresslevels"
+              );
+              this.stressLevels = response.data;
+            } catch (error) {
+              this.stressLevels = null;
+              this.stressError =
+                error.message || "Failed to fetch stress levels";
+            } finally {
+              this.isLoadingStress = false;
             }
           },
 
@@ -394,26 +574,36 @@
             try {
               await this.localAPI.get("/logout");
             } catch (error) {
-              console.error('Logout error:', error);
+              console.error("Logout error:", error);
             } finally {
               // Always reset auth state
               this.isAuthenticated = false;
               this.userInfo = null;
+              this.stressLevels = null;
               this.apiError = null;
+              this.infoError = null;
+              this.stressError = null;
+              this.isLoadingInfo = false;
+              this.isLoadingStress = false;
+              this.activeTab = "info";
             }
-          }
-        }
+          },
+        };
       }
     </script>
 
     <!-- Copyright Footer -->
     <div class="copyright">
-      &copy; <span id="copyright-year"></span> <a href="https://vriend.ai" target="_blank" rel="noopener noreferrer">Vriend Inc.</a>
+      &copy; <span id="copyright-year"></span>
+      <a href="https://vriend.ai" target="_blank" rel="noopener noreferrer"
+        >Vriend Inc.</a
+      >
     </div>
 
     <script>
       // Set current year dynamically
-      document.getElementById('copyright-year').textContent = new Date().getFullYear();
+      document.getElementById("copyright-year").textContent =
+        new Date().getFullYear();
     </script>
   </body>
 </html>
