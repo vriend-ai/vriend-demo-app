@@ -3,9 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Demo App</title>
+    <title>Demo App | Vriend</title>
     <style>
-      /* Same CSS as before - keeping it consistent */
       .hidden { display: none; }
       .container { text-align: center; margin-top: 50px; }
       .api-response {
@@ -45,11 +44,27 @@
         0% { transform: rotate(0deg); }
         100% { transform: rotate(360deg); }
       }
+
+      /* Alpine.js cloak - prevents flash of unstyled content */
+      [x-cloak] {
+        display: none !important;
+      }
+
+      /* Hide Alpine.js controlled content until it's ready */
+      .alpine-content {
+        opacity: 0;
+        transition: opacity 0.2s ease-in-out;
+      }
+
+      /* Show content when Alpine.js is ready */
+      .alpine-ready .alpine-content {
+        opacity: 1;
+      }
     </style>
   </head>
   <body>
-    <!-- Alpine.js App -->
-    <div id="app" x-data="authApp()" x-init="init()">
+    <!-- Alpine.js App with proper cloak handling -->
+    <div id="app" x-data="authApp()" x-init="init(); $nextTick(() => document.body.classList.add('alpine-ready'))" class="alpine-content" x-cloak>
       
       <!-- Loading State -->
       <div x-show="isLoading" class="container">
@@ -92,7 +107,7 @@
 
     <!-- JavaScript Dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
 
     <script>
       // Alpine.js app data and methods
