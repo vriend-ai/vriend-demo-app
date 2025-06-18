@@ -5,6 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Demo App | Vriend</title>
     <link rel="stylesheet" href="/public/styles.css">
+    <link rel="stylesheet" href="/public/scope-warning.css">
+    <style>
+      /* Override container's text alignment for warning messages */
+      .container .warning-override {
+        text-align: left !important;
+      }
+      .container .warning-override * {
+        text-align: left !important;
+      }
+      /* Fix any pre-formatted text */
+      .container .warning-override pre,
+      .container .warning-override code {
+        white-space: normal !important;
+        word-break: break-word !important;
+      }
+    </style>
   </head>
   <body>
     <!-- Alpine.js App with proper cloak handling -->
@@ -151,6 +167,35 @@
 
           <!-- Stress Levels Tab Content -->
           <div class="tab-content" :class="{ active: activeTab === 'stress' }">
+            <!-- Detailed explanation for missing scope -->
+            <div x-show="!stresslevelScope">
+              <table style="width: 100%; margin-bottom: 16px; border-collapse: collapse;">
+                <tr>
+                  <td style="text-align: left;">
+                    <div style="background-color: #fce8e8; border-left: 4px solid #e74c3c; padding: 16px; border-radius: 8px; color: #333;">
+                      <table style="width: 100%; border-collapse: collapse;">
+                        <tr>
+                          <td style="text-align: left; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 8px; margin-bottom: 12px;">
+                            <span style="font-size: 20px; margin-right: 8px;">⚠️</span>
+                            <span style="font-weight: bold; font-size: 16px;">Required Scope Missing</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="text-align: left; padding-top: 12px; padding-bottom: 12px; font-family: system-ui, sans-serif;">
+                            <strong>Access Denied:</strong> You cannot access stress level data because your session is missing the required <span style="background: rgba(231, 76, 60, 0.1); padding: 2px 5px; border-radius: 3px; font-family: monospace;">vriend_stresslevel</span> scope.
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="text-align: left; font-family: system-ui, sans-serif;">
+                            <strong>How to fix this:</strong> Please log out and sign in again, making sure to grant the <span style="background: rgba(231, 76, 60, 0.1); padding: 2px 5px; border-radius: 3px; font-family: monospace;">vriend_stresslevel</span> scope when prompted during authentication.
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </div>
             <div class="api-fetch-section">
               <!-- Section Header -->
               <div class="api-section-header">
@@ -170,9 +215,15 @@
                     <span class="status-text" x-show="stressLevels && !stressError">Ready</span>
                     <span class="status-text" x-show="stressError">Error</span>
                   </div>
+
+                  <!-- Warning for missing scope -->
+                  <div class="scope-warning" x-show="!stresslevelScope">
+                    <span class="warning-icon">⚠️</span>
+                    <span class="warning-text">Scope <code>vriend_stresslevel</code> missing</span>
+                  </div>
                   
                   <!-- Action buttons -->
-                  <div class="action-buttons">
+                  <div class="action-buttons" x-show="stresslevelScope">
                     <!-- Initial fetch button -->
                     <button
                       x-show="!stressLevels && !stressError && !isLoadingStress"
@@ -207,10 +258,10 @@
               </div>
 
               <!-- Loading skeleton -->
-              <div x-show="isLoadingStress" class="loading-skeleton"></div>
+              <div x-show="isLoadingStress && stresslevelScope" class="loading-skeleton"></div>
 
               <!-- Response container -->
-              <div class="api-response-container">
+              <div class="api-response-container" x-show="stresslevelScope">
                 <div x-show="stressLevels" class="api-response success">
                   <div class="response-header">
                     <span class="response-type">Stress Level Data</span>
@@ -252,6 +303,7 @@
           isLoadingStress: false,
           activeTab: "info",
           loginURL: "{{ .LoginURL }}",
+          stresslevelScope: false,
 
           // API clients
           vriendAPI: axios.create({
@@ -279,10 +331,23 @@
 
               this.userInfo = response.data;
               this.isAuthenticated = true;
+              
+              // Check if the vriend_stresslevel scope is available
+              if (this.userInfo && this.userInfo.caller && this.userInfo.caller.scopes) {
+                const scopes = Array.isArray(this.userInfo.caller.scopes) 
+                  ? this.userInfo.caller.scopes 
+                  : (typeof this.userInfo.caller.scopes === 'string' 
+                    ? this.userInfo.caller.scopes.split(/\s+/) 
+                    : []);
+                this.stresslevelScope = scopes.includes('vriend_stresslevel');
+              } else {
+                this.stresslevelScope = false;
+              }
             } catch (error) {
               this.isAuthenticated = false;
               this.userInfo = null;
               this.apiError = error.message || "Authentication failed";
+              this.stresslevelScope = false;
             } finally {
               this.isLoading = false;
             }
@@ -299,9 +364,22 @@
 
               const response = await this.vriendAPI.get("/info");
               this.userInfo = response.data;
+              
+              // Check if the vriend_stresslevel scope is available
+              if (this.userInfo && this.userInfo.caller && this.userInfo.caller.scopes) {
+                const scopes = Array.isArray(this.userInfo.caller.scopes) 
+                  ? this.userInfo.caller.scopes 
+                  : (typeof this.userInfo.caller.scopes === 'string' 
+                    ? this.userInfo.caller.scopes.split(/\s+/) 
+                    : []);
+                this.stresslevelScope = scopes.includes('vriend_stresslevel');
+              } else {
+                this.stresslevelScope = false;
+              }
             } catch (error) {
               this.userInfo = null;
               this.infoError = error.message || "Failed to fetch user info";
+              this.stresslevelScope = false;
             } finally {
               this.isLoadingInfo = false;
             }
@@ -341,6 +419,7 @@
               this.isLoadingInfo = false;
               this.isLoadingStress = false;
               this.activeTab = "info";
+              this.stresslevelScope = false;
             }
           },
         };

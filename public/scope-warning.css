@@ -1,0 +1,44 @@
+/* Scope Warning Styles */
+.scope-warning {
+  display: flex;
+  align-items: center;
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  animation: fadeIn 0.3s ease;
+}
+
+/* Force text left alignment for warning messages */
+.text-left-force {
+  text-align: left !important;
+  margin: 0 auto !important;
+}
+
+.text-left-force * {
+  text-align: left !important;
+}
+
+.warning-icon {
+  margin-right: 8px;
+}
+
+.warning-text {
+  font-weight: 600;
+}
+
+.scope-warning code {
+  background: rgba(255, 193, 7, 0.2);
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", Consolas, "Courier New", monospace;
+  font-size: 0.85em;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
