@@ -42,3 +42,35 @@
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+/* Override container's text alignment for warning messages */
+.container .warning-override {
+  text-align: left !important;
+}
+.container .warning-override * {
+  text-align: left !important;
+}
+/* Fix any pre-formatted text */
+.container .warning-override pre,
+.container .warning-override code {
+  white-space: normal !important;
+  word-break: break-word !important;
+}
+/* Checkbox styles */
+.checkbox-container {
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  user-select: none;
+}
+.checkbox-container input {
+  margin-right: 8px;
+  cursor: pointer;
+}
+.scope-toggle {
+  background-color: rgba(0,0,0,0.05);
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid rgba(0,0,0,0.1);
+}

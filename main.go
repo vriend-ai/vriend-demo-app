@@ -154,6 +154,13 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		"scope":         {"openid profile email vriend_stresslevel"}, // adjust scope as needed
 	}.Encode()
 
+	authURLWithoutScope := "http://127.0.0.1:9100/application/o/authorize/?" + url.Values{
+		"client_id":     {clientID},
+		"response_type": {"code"},
+		"redirect_uri":  {redirectURL},
+		"scope":         {"openid profile email"}, // adjust scope as needed
+	}.Encode()
+
 	// Parse and execute the template
 	tmpl, err := template.ParseFiles("templates/index.tmpl")
 	if err != nil {
@@ -162,11 +169,13 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	}
 
 	data := struct {
-		LoginURL     string
-		VriendAPIURL string
+		LoginURL             string
+		VriendAPIURL         string
+		LoginURLWithoutScope string
 	}{
-		LoginURL:     authURL,
-		VriendAPIURL: vriendAPIURL,
+		LoginURL:             authURL,
+		VriendAPIURL:         vriendAPIURL,
+		LoginURLWithoutScope: authURLWithoutScope,
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")

@@ -6,21 +6,6 @@
     <title>Demo App | Vriend</title>
     <link rel="stylesheet" href="/public/styles.css">
     <link rel="stylesheet" href="/public/scope-warning.css">
-    <style>
-      /* Override container's text alignment for warning messages */
-      .container .warning-override {
-        text-align: left !important;
-      }
-      .container .warning-override * {
-        text-align: left !important;
-      }
-      /* Fix any pre-formatted text */
-      .container .warning-override pre,
-      .container .warning-override code {
-        white-space: normal !important;
-        word-break: break-word !important;
-      }
-    </style>
   </head>
   <body>
     <!-- Alpine.js App with proper cloak handling -->
@@ -41,8 +26,14 @@
       <div x-show="!isAuthenticated && !isLoading" class="container">
         <h1 class="title">Welcome to the Demo App</h1>
         <p class="subtitle">Please sign in to continue.</p>
+        <div class="scope-toggle" style="margin-bottom: 12px; text-align: center;">
+          <label class="checkbox-container">
+            <input type="checkbox" x-model="enableStressScope">
+            <span>Enable <code>vriend_stresslevel</code> scope</span>
+          </label>
+        </div>
         <p>
-          <a :href="loginURL" class="signin-btn" rel="noopener">
+          <a :href="enableStressScope ? loginURL : loginURLWithoutScope" class="signin-btn" rel="noopener">
             <img
               src="https://cdn.vriend.ai/images/vriend-icon-white.png"
               alt="Vriend Inc. Icon"
@@ -303,6 +294,8 @@
           isLoadingStress: false,
           activeTab: "info",
           loginURL: "{{ .LoginURL }}",
+          loginURLWithoutScope: "{{ .LoginURLWithoutScope }}",
+          enableStressScope: true,
           stresslevelScope: false,
 
           // API clients
