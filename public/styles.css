@@ -12,7 +12,6 @@ body {
   color: #2d3748;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
-  padding: 20px;
 }
 
 .hidden {
@@ -29,7 +28,7 @@ body {
   padding: 40px 30px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   text-align: center;
-  margin-top: 10vh;
+  margin: 7vh auto;
   position: relative;
 }
 
