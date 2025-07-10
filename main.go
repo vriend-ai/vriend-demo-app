@@ -170,14 +170,21 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	var accessToken string
+	if cookie, err := r.Cookie(cookieName); err == nil {
+		accessToken = cookie.Value
+	}
+
 	data := struct {
 		LoginURL             string
 		VriendAPIURL         string
 		LoginURLWithoutScope string
+		AccessToken          string
 	}{
 		LoginURL:             authURL,
 		VriendAPIURL:         vriendAPIURL,
 		LoginURLWithoutScope: authURLWithoutScope,
+		AccessToken:          accessToken,
 	}
 
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")

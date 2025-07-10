@@ -4,15 +4,15 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Demo App | Vriend</title>
-    <link rel="stylesheet" href="/public/styles.css">
-    <link rel="stylesheet" href="/public/scope.css">
+    <link rel="stylesheet" href="/public/styles.css" />
+    <link rel="stylesheet" href="/public/scope.css" />
   </head>
   <body>
     <!-- Alpine.js App with proper cloak handling -->
     <div
       id="app"
       x-data="authApp()"
-      x-init="init(); $nextTick(() => document.body.classList.add('alpine-ready'))"
+      x-init="$nextTick(() => document.body.classList.add('alpine-ready'))"
       class="alpine-content"
       x-cloak
     >
@@ -26,14 +26,21 @@
       <div x-show="!isAuthenticated && !isLoading" class="container">
         <h1 class="title">Welcome to the Demo App</h1>
         <p class="subtitle">Please sign in to continue.</p>
-        <div class="scope-toggle" style="margin-bottom: 12px; text-align: center;">
+        <div
+          class="scope-toggle"
+          style="margin-bottom: 12px; text-align: center"
+        >
           <label class="checkbox-container">
-            <input type="checkbox" x-model="enableStressScope">
+            <input type="checkbox" x-model="enableStressScope" />
             <span>Enable <code>vriend_stresslevel</code> scope</span>
           </label>
         </div>
         <p>
-          <a :href="enableStressScope ? loginURL : loginURLWithoutScope" class="signin-btn" rel="noopener">
+          <a
+            :href="enableStressScope ? loginURL : loginURLWithoutScope"
+            class="signin-btn"
+            rel="noopener"
+          >
             <img
               src="https://cdn.vriend.ai/images/vriend-icon-white.png"
               alt="Vriend Inc. Icon"
@@ -53,7 +60,7 @@
         <div class="container-header">
           <button class="btn-logout-header" @click="logout()">Logout</button>
         </div>
-        
+
         <h1 class="title">Welcome, you are logged in!</h1>
         <p class="subtitle">You now have access to protected resources.</p>
 
@@ -87,17 +94,27 @@
                 </div>
                 <div class="section-actions">
                   <!-- Status indicator -->
-                  <div class="api-status" x-show="isLoadingInfo || userInfo || infoError">
-                    <div class="status-dot" :class="{
+                  <div
+                    class="api-status"
+                    x-show="isLoadingInfo || userInfo || infoError"
+                  >
+                    <div
+                      class="status-dot"
+                      :class="{
                       'status-loading': isLoadingInfo,
                       'status-success': userInfo && !infoError,
                       'status-error': infoError
-                    }"></div>
-                    <span class="status-text" x-show="isLoadingInfo">Loading...</span>
-                    <span class="status-text" x-show="userInfo && !infoError">Ready</span>
+                    }"
+                    ></div>
+                    <span class="status-text" x-show="isLoadingInfo"
+                      >Loading...</span
+                    >
+                    <span class="status-text" x-show="userInfo && !infoError"
+                      >Ready</span
+                    >
                     <span class="status-text" x-show="infoError">Error</span>
                   </div>
-                  
+
                   <!-- Action buttons -->
                   <div class="action-buttons">
                     <!-- Initial fetch button -->
@@ -141,14 +158,20 @@
                 <div x-show="userInfo" class="api-response success">
                   <div class="response-header">
                     <span class="response-type">User Information</span>
-                    <span class="response-timestamp" x-text="new Date().toLocaleTimeString()"></span>
+                    <span
+                      class="response-timestamp"
+                      x-text="new Date().toLocaleTimeString()"
+                    ></span>
                   </div>
                   <div x-text="JSON.stringify(userInfo, null, 2)"></div>
                 </div>
                 <div x-show="infoError" class="api-response error">
                   <div class="response-header">
                     <span class="response-type">Request Failed</span>
-                    <span class="response-timestamp" x-text="new Date().toLocaleTimeString()"></span>
+                    <span
+                      class="response-timestamp"
+                      x-text="new Date().toLocaleTimeString()"
+                    ></span>
                   </div>
                   <div x-text="'Error: ' + infoError"></div>
                 </div>
@@ -160,25 +183,85 @@
           <div class="tab-content" :class="{ active: activeTab === 'stress' }">
             <!-- Detailed explanation for missing scope -->
             <div x-show="!stresslevelScope">
-              <table style="width: 100%; margin-bottom: 16px; border-collapse: collapse;">
+              <table
+                style="
+                  width: 100%;
+                  margin-bottom: 16px;
+                  border-collapse: collapse;
+                "
+              >
                 <tr>
-                  <td style="text-align: left;">
-                    <div style="background-color: #fce8e8; border-left: 4px solid #e74c3c; padding: 16px; border-radius: 8px; color: #333;">
-                      <table style="width: 100%; border-collapse: collapse;">
+                  <td style="text-align: left">
+                    <div
+                      style="
+                        background-color: #fce8e8;
+                        border-left: 4px solid #e74c3c;
+                        padding: 16px;
+                        border-radius: 8px;
+                        color: #333;
+                      "
+                    >
+                      <table style="width: 100%; border-collapse: collapse">
                         <tr>
-                          <td style="text-align: left; border-bottom: 1px solid rgba(0,0,0,0.1); padding-bottom: 8px; margin-bottom: 12px;">
-                            <span style="font-size: 20px; margin-right: 8px;">⚠️</span>
-                            <span style="font-weight: bold; font-size: 16px;">Required Scope Missing</span>
+                          <td
+                            style="
+                              text-align: left;
+                              border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+                              padding-bottom: 8px;
+                              margin-bottom: 12px;
+                            "
+                          >
+                            <span style="font-size: 20px; margin-right: 8px"
+                              >⚠️</span
+                            >
+                            <span style="font-weight: bold; font-size: 16px"
+                              >Required Scope Missing</span
+                            >
                           </td>
                         </tr>
                         <tr>
-                          <td style="text-align: left; padding-top: 12px; padding-bottom: 12px; font-family: system-ui, sans-serif;">
-                            <strong>Access Denied:</strong> You cannot access stress level data because your session is missing the required <span style="background: rgba(231, 76, 60, 0.1); padding: 2px 5px; border-radius: 3px; font-family: monospace;">vriend_stresslevel</span> scope.
+                          <td
+                            style="
+                              text-align: left;
+                              padding-top: 12px;
+                              padding-bottom: 12px;
+                              font-family: system-ui, sans-serif;
+                            "
+                          >
+                            <strong>Access Denied:</strong> You cannot access
+                            stress level data because your session is missing
+                            the required
+                            <span
+                              style="
+                                background: rgba(231, 76, 60, 0.1);
+                                padding: 2px 5px;
+                                border-radius: 3px;
+                                font-family: monospace;
+                              "
+                              >vriend_stresslevel</span
+                            >
+                            scope.
                           </td>
                         </tr>
                         <tr>
-                          <td style="text-align: left; font-family: system-ui, sans-serif;">
-                            <strong>How to fix this:</strong> Please log out and sign in again, making sure to grant the <span style="background: rgba(231, 76, 60, 0.1); padding: 2px 5px; border-radius: 3px; font-family: monospace;">vriend_stresslevel</span> scope when prompted during authentication.
+                          <td
+                            style="
+                              text-align: left;
+                              font-family: system-ui, sans-serif;
+                            "
+                          >
+                            <strong>How to fix this:</strong> Please log out and
+                            sign in again, making sure to grant the
+                            <span
+                              style="
+                                background: rgba(231, 76, 60, 0.1);
+                                padding: 2px 5px;
+                                border-radius: 3px;
+                                font-family: monospace;
+                              "
+                              >vriend_stresslevel</span
+                            >
+                            scope when prompted during authentication.
                           </td>
                         </tr>
                       </table>
@@ -196,23 +279,37 @@
                 </div>
                 <div class="section-actions">
                   <!-- Status indicator -->
-                  <div class="api-status" x-show="isLoadingStress || stressLevels || stressError">
-                    <div class="status-dot" :class="{
+                  <div
+                    class="api-status"
+                    x-show="isLoadingStress || stressLevels || stressError"
+                  >
+                    <div
+                      class="status-dot"
+                      :class="{
                       'status-loading': isLoadingStress,
                       'status-success': stressLevels && !stressError,
                       'status-error': stressError
-                    }"></div>
-                    <span class="status-text" x-show="isLoadingStress">Loading...</span>
-                    <span class="status-text" x-show="stressLevels && !stressError">Ready</span>
+                    }"
+                    ></div>
+                    <span class="status-text" x-show="isLoadingStress"
+                      >Loading...</span
+                    >
+                    <span
+                      class="status-text"
+                      x-show="stressLevels && !stressError"
+                      >Ready</span
+                    >
                     <span class="status-text" x-show="stressError">Error</span>
                   </div>
 
                   <!-- Warning for missing scope -->
                   <div class="scope-warning" x-show="!stresslevelScope">
                     <span class="warning-icon">⚠️</span>
-                    <span class="warning-text">Scope <code>vriend_stresslevel</code> missing</span>
+                    <span class="warning-text"
+                      >Scope <code>vriend_stresslevel</code> missing</span
+                    >
                   </div>
-                  
+
                   <!-- Action buttons -->
                   <div class="action-buttons" x-show="stresslevelScope">
                     <!-- Initial fetch button -->
@@ -249,21 +346,30 @@
               </div>
 
               <!-- Loading skeleton -->
-              <div x-show="isLoadingStress && stresslevelScope" class="loading-skeleton"></div>
+              <div
+                x-show="isLoadingStress && stresslevelScope"
+                class="loading-skeleton"
+              ></div>
 
               <!-- Response container -->
               <div class="api-response-container" x-show="stresslevelScope">
                 <div x-show="stressLevels" class="api-response success">
                   <div class="response-header">
                     <span class="response-type">Stress Level Data</span>
-                    <span class="response-timestamp" x-text="new Date().toLocaleTimeString()"></span>
+                    <span
+                      class="response-timestamp"
+                      x-text="new Date().toLocaleTimeString()"
+                    ></span>
                   </div>
                   <div x-text="JSON.stringify(stressLevels, null, 2)"></div>
                 </div>
                 <div x-show="stressError" class="api-response error">
                   <div class="response-header">
                     <span class="response-type">Request Failed</span>
-                    <span class="response-timestamp" x-text="new Date().toLocaleTimeString()"></span>
+                    <span
+                      class="response-timestamp"
+                      x-text="new Date().toLocaleTimeString()"
+                    ></span>
                   </div>
                   <div x-text="'Error: ' + stressError"></div>
                 </div>
@@ -298,6 +404,8 @@
           enableStressScope: true,
           stresslevelScope: false,
 
+          accessToken: "{{ .AccessToken }}",
+
           // API clients
           vriendAPI: axios.create({
             baseURL: "{{ .VriendAPIURL }}",
@@ -312,6 +420,7 @@
 
           // Methods
           async init() {
+            console.log("Initializing authApp...");
             await this.checkAuthStatus();
           },
 
@@ -320,19 +429,27 @@
               this.isLoading = true;
               this.apiError = null;
 
-              const response = await this.vriendAPI.get("/info");
+              const response = await this.vriendAPI.get("/info", {
+                headers: {
+                  Authorization: `Bearer ${this.accessToken}`,
+                },
+              });
 
               this.userInfo = response.data;
               this.isAuthenticated = true;
-              
+
               // Check if the vriend_stresslevel scope is available
-              if (this.userInfo && this.userInfo.caller && this.userInfo.caller.scopes) {
-                const scopes = Array.isArray(this.userInfo.caller.scopes) 
-                  ? this.userInfo.caller.scopes 
-                  : (typeof this.userInfo.caller.scopes === 'string' 
-                    ? this.userInfo.caller.scopes.split(/\s+/) 
-                    : []);
-                this.stresslevelScope = scopes.includes('vriend_stresslevel');
+              if (
+                this.userInfo &&
+                this.userInfo.caller &&
+                this.userInfo.caller.scopes
+              ) {
+                const scopes = Array.isArray(this.userInfo.caller.scopes)
+                  ? this.userInfo.caller.scopes
+                  : typeof this.userInfo.caller.scopes === "string"
+                  ? this.userInfo.caller.scopes.split(/\s+/)
+                  : [];
+                this.stresslevelScope = scopes.includes("vriend_stresslevel");
               } else {
                 this.stresslevelScope = false;
               }
@@ -357,15 +474,19 @@
 
               const response = await this.vriendAPI.get("/info");
               this.userInfo = response.data;
-              
+
               // Check if the vriend_stresslevel scope is available
-              if (this.userInfo && this.userInfo.caller && this.userInfo.caller.scopes) {
-                const scopes = Array.isArray(this.userInfo.caller.scopes) 
-                  ? this.userInfo.caller.scopes 
-                  : (typeof this.userInfo.caller.scopes === 'string' 
-                    ? this.userInfo.caller.scopes.split(/\s+/) 
-                    : []);
-                this.stresslevelScope = scopes.includes('vriend_stresslevel');
+              if (
+                this.userInfo &&
+                this.userInfo.caller &&
+                this.userInfo.caller.scopes
+              ) {
+                const scopes = Array.isArray(this.userInfo.caller.scopes)
+                  ? this.userInfo.caller.scopes
+                  : typeof this.userInfo.caller.scopes === "string"
+                  ? this.userInfo.caller.scopes.split(/\s+/)
+                  : [];
+                this.stresslevelScope = scopes.includes("vriend_stresslevel");
               } else {
                 this.stresslevelScope = false;
               }
@@ -384,7 +505,11 @@
               this.stressError = null;
 
               const response = await this.vriendAPI.get(
-                "/wellness/stresslevels"
+                "/wellness/stresslevels", {
+                headers: {
+                  Authorization: `Bearer ${this.accessToken}`,
+                },
+              }
               );
               this.stressLevels = response.data;
             } catch (error) {
