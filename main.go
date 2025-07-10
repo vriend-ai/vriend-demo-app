@@ -20,6 +20,7 @@ var (
 	redirectURL  string
 
 	authTokenURL         string
+	authServerURL        string
 	vriendAPIURL         string
 	port                 = ":1234"
 	redirectEndpointPath = "/oauth/redirect"
@@ -38,9 +39,10 @@ func init() {
 	clientSecret = os.Getenv("VRIEND_CLIENT_SECRET")
 	redirectURL = os.Getenv("APPLICATION_REDIRECT_URL")
 	authTokenURL = os.Getenv("VRIEND_AUTH_TOKEN_URL")
+	authServerURL = os.Getenv("VRIEND_AUTH_SERVER_URL")
 	vriendAPIURL = os.Getenv("VRIEND_API_URL")
-	if clientID == "" || clientSecret == "" || authTokenURL == "" || redirectURL == "" || vriendAPIURL == "" {
-		log.Fatal("Environment variables VRIEND_CLIENT_ID, VRIEND_CLIENT_SECRET, VRIEND_AUTH_TOKEN_URL, and APPLICATION_REDIRECT_URL must be set")
+	if clientID == "" || clientSecret == "" || authTokenURL == "" || redirectURL == "" || vriendAPIURL == "" || authServerURL == "" {
+		log.Fatal("Environment variables VRIEND_CLIENT_ID, VRIEND_CLIENT_SECRET, VRIEND_AUTH_TOKEN_URL, VRIEND_AUTH_SERVER_URL, and APPLICATION_REDIRECT_URL must be set")
 	}
 
 	// Extract the port (default 80 for http and 443 for https) from the redirect URL
@@ -147,14 +149,14 @@ func handleLogout(w http.ResponseWriter, r *http.Request) {
 
 func handleIndex(w http.ResponseWriter, r *http.Request) {
 	// Construct the OAuth login URL
-	authURL := "http://127.0.0.1:9100/application/o/authorize/?" + url.Values{
+	authURL := authServerURL + "/application/o/authorize/?" + url.Values{
 		"client_id":     {clientID},
 		"response_type": {"code"},
 		"redirect_uri":  {redirectURL},
 		"scope":         {"openid profile email vriend_stresslevel"}, // adjust scope as needed
 	}.Encode()
 
-	authURLWithoutScope := "http://127.0.0.1:9100/application/o/authorize/?" + url.Values{
+	authURLWithoutScope := authServerURL + "/application/o/authorize/?" + url.Values{
 		"client_id":     {clientID},
 		"response_type": {"code"},
 		"redirect_uri":  {redirectURL},
